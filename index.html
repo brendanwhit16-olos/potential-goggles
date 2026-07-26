@@ -1,14 +1,586 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Civics &amp; Elections: Signal Pool</title>
-<link rel="stylesheet" href="./assets/style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Civics &amp; Elections: Frame Creation Research Pod Pitch</title>
+  
+  <!-- Fonts: Instrument Serif & Overpass -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Overpass:ital,wght@0,200..700;1,200..700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      /* Vertical Rhythm Baseline Grid (Base: 28px) */
+      --rhythm: 28px;
+      
+      /* Editorial Palette */
+      --bg: #fafafa;
+      --surface: #ffffff;
+      --ink: #0d0f12;
+      --muted: #525866;
+      --subtle: #8e95a5;
+      --border: rgba(13, 15, 18, 0.08);
+      --border-dark: rgba(13, 15, 18, 0.2);
+      
+      --accent-teal: #00808b;
+      --accent-teal-dark: #004d54;
+      --accent-teal-bg: #eef7f8;
+      
+      --font-serif: 'Instrument Serif', Georgia, serif;
+      --font-sans: 'Overpass', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background-color: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      font-weight: 300;
+      font-size: 1.125rem; /* 18px */
+      line-height: var(--rhythm); /* 28px baseline lock */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* TYPOGRAPHY HIERARCHY WITH HIGH CONTRAST & BASELINE ALIGNMENT */
+    h1, h2, h3, h4 {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      color: var(--ink);
+      margin: 0 0 var(--rhythm) 0;
+    }
+
+    h1 {
+      /* Massive Editorial Display Header */
+      font-size: clamp(3.75rem, 8vw, 7rem);
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      margin-bottom: calc(var(--rhythm) * 1.5);
+    }
+
+    h2 {
+      /* Major Section Headers */
+      font-size: clamp(2.5rem, 5vw, 4.25rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+
+    h3 {
+      /* Subheaders / Card Titles */
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      line-height: 1.15;
+    }
+
+    p {
+      margin: 0 0 var(--rhythm) 0;
+      line-height: var(--rhythm);
+      color: var(--muted);
+    }
+
+    p.lead {
+      font-size: clamp(1.25rem, 2vw, 1.625rem);
+      line-height: calc(var(--rhythm) * 1.25);
+      color: var(--muted);
+      font-weight: 300;
+      max-width: 42ch;
+    }
+
+    /* OVERLINE / BADGE / METADATA TAGS */
+    .meta-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent-teal);
+      background: var(--accent-teal-bg);
+      padding: 0 16px;
+      height: var(--rhythm);
+      border-radius: 100px;
+      margin-bottom: var(--rhythm);
+      border: 1px solid rgba(0, 128, 139, 0.15);
+    }
+
+    /* MAIN CONTAINER & GENEROUS SECTION SPACING */
+    #page-wrapper {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .section-spacer {
+      padding-top: calc(var(--rhythm) * 4);
+      padding-bottom: calc(var(--rhythm) * 4);
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* HERO & PITCH SECTION */
+    .pitch-hero {
+      padding-top: calc(var(--rhythm) * 3);
+      padding-bottom: calc(var(--rhythm) * 4);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: calc(var(--rhythm) * 2);
+    }
+
+    @media (min-width: 1024px) {
+      .hero-grid {
+        grid-template-columns: 7fr 5fr;
+        align-items: start;
+      }
+    }
+
+    /* AIDA EDITORIAL GRID */
+    .aida-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: calc(var(--rhythm) * 1.5);
+      margin-top: calc(var(--rhythm) * 2);
+      margin-bottom: calc(var(--rhythm) * 3);
+    }
+
+    @media (min-width: 768px) {
+      .aida-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .aida-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: calc(var(--rhythm) * 1.5);
+      transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .aida-card:hover {
+      border-color: var(--accent-teal);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -15px rgba(0,0,0,0.05);
+    }
+
+    .aida-num {
+      font-family: var(--font-sans);
+      font-size: 0.8125rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--subtle);
+      margin-bottom: var(--rhythm);
+      text-transform: uppercase;
+    }
+
+    .aida-card h3 {
+      margin-bottom: calc(var(--rhythm) * 0.75);
+    }
+
+    .aida-card p {
+      font-size: 1rem;
+      color: var(--muted);
+      margin-bottom: 0;
+    }
+
+    .aida-card ul {
+      margin: calc(var(--rhythm) * 0.5) 0 0 18px;
+      padding: 0;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .aida-card li {
+      margin-bottom: 8px;
+    }
+
+    /* CALL TO ACTION BOX */
+    .cta-banner {
+      background: var(--ink);
+      color: var(--surface);
+      border-radius: 24px;
+      padding: calc(var(--rhythm) * 3) calc(var(--rhythm) * 2);
+      text-align: center;
+      margin-top: calc(var(--rhythm) * 2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-banner h2 {
+      color: var(--surface);
+      font-size: clamp(2.25rem, 4.5vw, 3.75rem);
+      margin-bottom: var(--rhythm);
+    }
+
+    .cta-banner p {
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 1.25rem;
+      max-width: 58ch;
+      margin: 0 auto calc(var(--rhythm) * 1.5);
+    }
+
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent-teal);
+      color: #ffffff;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 1.125rem;
+      text-decoration: none;
+      height: calc(var(--rhythm) * 2);
+      padding: 0 40px;
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 20px rgba(0, 128, 139, 0.3);
+    }
+
+    .btn-action:hover {
+      background: #0099a6;
+      transform: scale(1.03);
+      box-shadow: 0 8px 30px rgba(0, 128, 139, 0.45);
+    }
+
+    /* DATA VAULT / ACCORDION DRAWERS */
+    .vault-header {
+      margin-bottom: calc(var(--rhythm) * 2);
+    }
+
+    details.drawer {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin-bottom: var(--rhythm);
+      overflow: hidden;
+      transition: border-color 0.25s ease;
+    }
+
+    details.drawer[open] {
+      border-color: var(--accent-teal);
+    }
+
+    summary.drawer-summary {
+      padding: calc(var(--rhythm) * 1) calc(var(--rhythm) * 1.25);
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 2.5vw, 2.125rem);
+      cursor: pointer;
+      user-select: none;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    summary.drawer-summary::-webkit-details-marker { display: none; }
+
+    summary.drawer-summary::after {
+      content: "+";
+      font-family: var(--font-sans);
+      font-size: 1.75rem;
+      font-weight: 300;
+      color: var(--subtle);
+      transition: transform 0.25s ease;
+    }
+
+    details[open] summary.drawer-summary::after {
+      content: "−";
+    }
+
+    .drawer-content {
+      padding: calc(var(--rhythm) * 1) calc(var(--rhythm) * 1.25) calc(var(--rhythm) * 1.5);
+      border-top: 1px solid var(--border);
+      background: #fdfdfd;
+    }
+
+    .map-preview {
+      width: 100%;
+      min-height: 280px;
+      border: 1px dashed var(--border-dark);
+      border-radius: 12px;
+      background: var(--accent-teal-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 32px;
+      text-align: center;
+    }
+
+    .extracts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+    }
+
+    .extract-item {
+      padding: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    .extract-item h4 {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      margin-bottom: 6px;
+    }
+
+    .extract-item p {
+      font-size: 0.9rem;
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+
+    .extract-item a {
+      color: var(--accent-teal);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .extract-item a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 640px) {
+      #page-wrapper { padding: 0 16px; }
+      .cta-banner { padding: calc(var(--rhythm) * 2) 20px; }
+    }
+  </style>
 </head>
 <body>
-<main id="report"><p class="loading">Loading…</p></main>
-<script src="./data/site-data.js"></script>
-<script src="./assets/viewer.js"></script>
+  <div id="page-wrapper">
+    <!-- HERO / PITCH SECTION -->
+    <header class="pitch-hero section-spacer">
+      <span class="meta-tag">Build Cycle Proposal • Civics &amp; Elections</span>
+      <div class="hero-grid">
+        <div>
+          <h1>Civic Exhaustion Is a System Design Failure</h1>
+        </div>
+        <div>
+          <p class="lead">
+            Democracy is grinding down not because citizens don't care, but because participation has become an unsustainable personal tax. This problem situation represents the single most urgent, foundational friction in this Build Cycle.
+          </p>
+        </div>
+      </div>
+
+      <!-- AIDA FRAMEWORK PITCH -->
+      <div class="aida-grid">
+        <!-- Attention -->
+        <div class="aida-card">
+          <div>
+            <div class="aida-num">01 / ATTENTION</div>
+            <h3>The Collapse of Everyday Participation</h3>
+            <p>
+              Across local councils, school boards, and elections, citizens are withdrawing in unprecedented numbers. The problem isn't voter apathy—it's that participating in civic life today feels like taking on an unguided second job. When well-meaning citizens try to engage, they encounter black-hole communication loops, opaque administrative processes, and toxic media environments that burn them out.
+            </p>
+          </div>
+        </div>
+
+        <!-- Interest -->
+        <div class="aida-card">
+          <div>
+            <div class="aida-num">02 / INTEREST</div>
+            <h3>48 Signals Expose Two Deep System Fault Lines</h3>
+            <p>
+              Synthesizing 48 raw friction signals from real constituents, election workers, and grassroots leaders reveals two structural dynamics:
+            </p>
+            <ul>
+              <li><strong>The Un-Scaffolded Tax:</strong> Everyday democratic maintenance relies on unpaid labor without playbooks, turning civic duty into an exhausting privilege.</li>
+              <li><strong>The Broken Covenant:</strong> Institutions extract public sentiment without offering true accountability or visible impact, turning citizens into decorative inputs.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Desire -->
+        <div class="aida-card">
+          <div>
+            <div class="aida-num">03 / DESIRE</div>
+            <h3>The Most Impactful Problem We Can Solve</h3>
+            <p>
+              If we ignore this problem situation, every civic tool we build will fail to gain traction because it will be feeding into an already burnt-out user base. By choosing to tackle this problem situation, our research pod will step back to saturate in these structural dynamics, diagnosing the underlying paradoxes before building solutions that actually unlock human agency.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTION CTA -->
+      <div class="cta-banner">
+        <h2>Vote for This Problem Situation</h2>
+        <p>
+          Help us assemble a dedicated research pod to tackle the root causes of civic burnout. Cast your vote for this problem situation in the Cycle Gallery so we can initiate our deep-dive research cycle.
+        </p>
+        <a href="https://theupskillinglabs.org/cycles/2/proposals" class="btn-action" target="_blank" rel="noopener noreferrer">
+          See this problem situation in the Cycle Gallery &rarr;
+        </a>
+      </div>
+    </header>
+
+    <!-- RESEARCH & SIGNAL VAULT (COLLAPSIBLE DRAWERS) -->
+    <section class="section-spacer">
+      <div class="vault-header">
+        <span class="meta-tag">Deep Research Vault</span>
+        <h2>Underlying Signal Map &amp; Triangulation Data</h2>
+        <p class="lead">Explore the complete signal map, synthesized themes, formal problem situation definition, and raw survey data below.</p>
+      </div>
+
+      <!-- 1. Web Map -->
+      <details class="drawer">
+        <summary class="drawer-summary">Spatial Signal Map &amp; Node Triangulation</summary>
+        <div class="drawer-content">
+          <div id="map-container" class="map-preview">
+            <h3>48 Triangulated Friction Nodes</h3>
+            <p>Interactive spatial graph coordinates loaded in <code>SITE_DATA</code>.</p>
+          </div>
+        </div>
+      </details>
+
+      <!-- 2. Themes -->
+      <details class="drawer">
+        <summary class="drawer-summary">Synthesized Research Themes</summary>
+        <div class="drawer-content narrative" id="themes-container">
+          <!-- Populated by JavaScript -->
+        </div>
+      </details>
+
+      <!-- 3. Problem Situation -->
+      <details class="drawer">
+        <summary class="drawer-summary">Full Problem Situation Definition</summary>
+        <div class="drawer-content narrative" id="situation-container">
+          <!-- Populated by JavaScript -->
+        </div>
+      </details>
+
+      <!-- 4. Source Extracts -->
+      <details class="drawer">
+        <summary class="drawer-summary">Raw Source Extracts (48 Signals)</summary>
+        <div class="drawer-content extracts" id="extracts-container">
+          <!-- Populated by JavaScript -->
+        </div>
+      </details>
+    </section>
+  </div>
+
+  <!-- COMPLETE SITE DATA & DRAWER RENDERER -->
+  <script>
+    window.SITE_DATA = {
+      project: {
+        "@context": {
+          "@vocab": "https://schema.org/",
+          "tg": "https://theupskillinglabs.github.io/triangles/ns#",
+          "tier": "tg:tier",
+          "x": "tg:x",
+          "y": "tg:y",
+          "w": "tg:w",
+          "h": "tg:h",
+          "verified": "tg:verified",
+          "locked": "tg:locked",
+          "strong": "tg:strong",
+          "source_url": "tg:sourceUrl",
+          "children": { "@id": "tg:hasChild", "@type": "@id" }
+        },
+        "title": "Civics & Elections: Signal Pool",
+        "concept": "Frame Creation Research Pod",
+        "generatedAt": "2026-07-26T16:18:42.092Z",
+        "@graph": [
+          { "@id": "item_01", "@type": "tg:SourceExtract", "title": "Restructuring the Political System", "description": "A high-level desire to shift the fundamental political structure of the United States to model other international systems.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-1" },
+          { "@id": "item_02", "@type": "tg:SourceExtract", "title": "Media Misinformation", "description": "Broad concerns regarding how misleading media and digital influencing are negatively impacting civic engagement.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-3" },
+          { "@id": "item_03", "@type": "tg:SourceExtract", "title": "Campaign Finance & District Competitiveness", "description": "Observations that financial influence and gerrymandering have reduced the competitiveness of congressional districts.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-4" },
+          { "@id": "item_04", "@type": "tg:SourceExtract", "title": "Ranked Choice Voting Education", "description": "The implementation of ranked choice voting lacks sufficient public education to help voters understand its systemic benefits and how it changes voting behaviors.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-5" },
+          { "@id": "item_06", "@type": "tg:SourceExtract", "title": "Local Candidate Information Gaps", "description": "Voters lack easily accessible, actionable information about local county-level candidates, often relying heavily on name recognition from campaign signs.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-7" },
+          { "@id": "item_07", "@type": "tg:SourceExtract", "title": "Public Engagement on Government AI", "description": "Citizens lack the tools and platforms to provide feedback on or inform how government agencies and companies deploy artificial intelligence in their communities.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-8" },
+          { "@id": "item_09", "@type": "tg:SourceExtract", "title": "Campaign Finance", "description": "Reform efforts consistently hit roadblocks like the Citizens United decision.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-10" },
+          { "@id": "item_10", "@type": "tg:SourceExtract", "title": "Civic Distrust & Disinformation", "description": "A toxic combination of distrust in voting, a lack of civics literacy, and internet-era disinformation is allowing political entities to manipulate voters' worst instincts.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-11" },
+          { "@id": "item_11", "@type": "tg:SourceExtract", "title": "Logistical & Educational Barriers to Voting", "description": "Voting is burdened by physical hurdles (childcare, time off work) and a lack of plain-language education on how local elections directly impact citizens' daily lives.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-12" },
+          { "@id": "item_12", "@type": "tg:SourceExtract", "title": "The Death of Political Compromise", "description": "The electorate and activists are failing to recognize that compromise is a fundamental component of democracy, negatively impacting civic engagement.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-13" },
+          { "@id": "item_13", "@type": "tg:SourceExtract", "title": "Civics Talent Pipeline Shortage", "description": "There is a noticeable shortage of talent to fill junior roles within the civics and elections workforce.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-14" },
+          { "@id": "item_14", "@type": "tg:SourceExtract", "title": "False Transparency in Government", "description": "Government agencies and schools exhibit a disconnect with their constituencies, presenting a 'false flag' of transparency that leaves communities feeling ignored without understanding how aggregate sentiment is utilized.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-15" },
+          { "@id": "item_15", "@type": "tg:SourceExtract", "title": "AI Bot Interference in Constituent Engagement", "description": "Artificial intelligence is being used to flood communication channels, rendering actual, organic constituent engagement ineffective.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-16" },
+          { "@id": "item_16", "@type": "tg:SourceExtract", "title": "Hopelessness & Lack of Election Information", "description": "Voters feel hopeless and lack basic awareness of when local elections occur, relying on passive information like mailers or word of mouth.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-17" },
+          { "@id": "item_17", "@type": "tg:SourceExtract", "title": "Structural Election Imbalances", "description": "The current electoral system features gerrymandering, dominant two-party privileges, and districts so large that politicians effectively choose their voters.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-18" },
+          { "@id": "item_18", "@type": "tg:SourceExtract", "title": "Political Bubbles & NIMBYism", "description": "Citizens are highly polarized and isolated in social bubbles, proposing solutions or pushing back on reforms without understanding the broader impacts, trade-offs, or equity implications beyond their circles.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-19" },
+          { "@id": "item_19", "@type": "tg:SourceExtract", "title": "Volunteer Burnout & Knowledge Transfer", "description": "Local volunteer roles, such as PTA leadership, fall on a few individuals. There is a need for tools to reduce the operational burden and retain institutional knowledge as volunteer leadership turns over.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-19" },
+          { "@id": "item_20", "@type": "tg:SourceExtract", "title": "Aging Civic Leadership", "description": "Local civic organizations are heavily reliant on aging populations for leadership and membership, struggling to recruit younger generations who face competing career and family priorities.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-20" },
+          { "@id": "item_21", "@type": "tg:SourceExtract", "title": "Uncontested Local Candidate Transparency", "description": "It is incredibly difficult to research the records of local election candidates, especially those running uncontested or without a communications budget, leaving voters feeling uninformed.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-21" },
+          { "@id": "item_22", "@type": "tg:SourceExtract", "title": "Unexplained Ballot Roles", "description": "Even where ranked-choice mechanics were well taught, voters lack a plain-language breakdown of what each office on the ballot actually does, leaving first-time voters guessing at the roles they're electing.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-22" },
+          { "@id": "item_23", "@type": "tg:SourceExtract", "title": "Performative Bipartisanship", "description": "Statements, town halls, and pledges perform collaboration without doing it; missing is a structured, sprint-like way for people who are supposed to disagree to define a shared problem and build something together.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-23" },
+          { "@id": "item_24", "@type": "tg:SourceExtract", "title": "Loneliness as a Civic Problem", "description": "The social scaffolding that once created accountability in how people form relationships has dissolved with nothing replacing it — an isolation epidemic treated as a private matter rather than missing civic infrastructure.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-24" },
+          { "@id": "item_25", "@type": "tg:SourceExtract", "title": "Outdated Small-Organization Elections", "description": "Unions, HOAs, and nonprofit boards run consequential elections on paper ballots and opaque spreadsheets; available tools serve incumbent leadership rather than transparent, verifiable results for members.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-25" },
+          { "@id": "item_26", "@type": "tg:SourceExtract", "title": "Eroded Respect for Disagreement", "description": "People can no longer agree to disagree — basic respect for others and their opinions is missing from civic life, and active listening is rare.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-26" },
+          { "@id": "item_27", "@type": "tg:SourceExtract", "title": "Misunderstood Pace of Government", "description": "Constituents misjudge who holds which powers and how fast government was designed to move, so legitimate slowness reads as failure — and stretched congressional staff can't give every issue the weight visitors expect.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-27" },
+          { "@id": "item_28", "@type": "tg:SourceExtract", "title": "Cross-Jurisdiction Election Distrust", "description": "Election officials struggle to cut through fragmented information channels, and even people who trust their own town's elections increasingly distrust elections run by other cities and states.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-28" },
+          { "@id": "item_29", "@type": "tg:SourceExtract", "title": "No Playbook for Good Citizenship", "description": "There is no clear guide to the daily, weekly, and monthly steps of being an informed, participating citizen — the information is scattered everywhere, and the whole project feels overwhelming.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-29" },
+          { "@id": "item_30", "@type": "tg:SourceExtract", "title": "Broad Civic Disengagement", "description": "Many people are not engaged in local or national politics, don't know who the candidates are or what they stand for, and don't vote — despite candidate forums and get-out-the-vote efforts.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-30" },
+          { "@id": "item_31", "@type": "tg:SourceExtract", "title": "Missing Dialogue Across Difference", "description": "People who hold differing views about a topic rarely talk with each other; new civic-engagement software is being tried, with only some success.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-31" },
+          { "@id": "item_32", "@type": "tg:SourceExtract", "title": "Untapped Personal Megaphones", "description": "People forget how influential they can be with the biggest megaphone in history in the palm of their hand — but no one has cracked engagement at scale without it devolving into a rage machine.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-32" },
+          { "@id": "item_33", "@type": "tg:SourceExtract", "title": "Low-Information Voting & Gerrymandering", "description": "Many voters don't research candidates before an election, while nationwide gerrymandering and proposed federal voting restrictions make the underlying playing field less fair.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-33" },
+          { "@id": "item_34", "@type": "tg:SourceExtract", "title": "Ranked-Choice Confusion Persists", "description": "Voters remain confused about how ranked choice voting works and still lack clear, unbiased information about the candidates themselves.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-34" },
+          { "@id": "item_35", "@type": "tg:SourceExtract", "title": "Anemic, Uneven Participation", "description": "Civic participation is thin, and only some voices get heard and lifted.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-35" },
+          { "@id": "item_36", "@type": "tg:SourceExtract", "title": "Constituent Mail Black Hole", "description": "Letters and emails to representatives feel like talking into a void — heartfelt messages come back as generic, strategist-polished boilerplate.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-36" },
+          { "@id": "item_37", "@type": "tg:SourceExtract", "title": "Entertainment Crowds Out Civic Attention", "description": "Citizens are too busy consuming entertainment to pay attention to neighborhood issues, kids' activities, or their government; outreach across multiple mediums still meets 'I don't have time'.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-37" },
+          { "@id": "item_38", "@type": "tg:SourceExtract", "title": "Complacency & Candidate Deterrence", "description": "The average citizen doesn't feel they can make a difference, and good people stay away from political office because media can form any narrative it wants about them.", "source_url": "https://theupskillinglabs.org/survey/civics/results#r-38" }
+        ]
+      }
+    };
+
+    // Populate Drawers on DOM Loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Render Extracts
+      const extractsContainer = document.getElementById('extracts-container');
+      if (extractsContainer && window.SITE_DATA) {
+        const items = window.SITE_DATA.project['@graph'];
+        let gridHtml = '<div class="extracts-grid">';
+        items.forEach(item => {
+          gridHtml += `
+            <div class="extract-item">
+              <h4>${item.title}</h4>
+              <p>${item.description}</p>
+              <a href="${item.source_url}" target="_blank" rel="noopener noreferrer">View Signal Source &rarr;</a>
+            </div>
+          `;
+        });
+        gridHtml += '</div>';
+        extractsContainer.innerHTML = gridHtml;
+      }
+
+      // 2. Render Themes
+      const themesContainer = document.getElementById('themes-container');
+      if (themesContainer) {
+        themesContainer.innerHTML = `
+          <h3>Core Themes Synthesized from 48 Signals</h3>
+          <p><strong>1. The Un-Scaffolded Tax on Civic Endurance:</strong> Everyday democratic maintenance relies on unpaid, unguided labor from volunteers and citizens, creating systemic burnout.</p>
+          <p><strong>2. The Broken Covenant of Institutional Extraction:</strong> Public institutions collect citizen inputs, votes, and sentiment without offering visible structural reciprocity or accountability.</p>
+          <p><strong>3. The Failure of Shallow Digital Fixes:</strong> GOTV dashboards and notification apps digitize civic noise rather than scaffolding meaningful civic agency.</p>
+        `;
+      }
+
+      // 3. Render Situation Definition
+      const situationContainer = document.getElementById('situation-container');
+      if (situationContainer) {
+        situationContainer.innerHTML = `
+          <h3>Formal Problem Situation Statement</h3>
+          <p><em>"Modern civic infrastructure operates as an exhaustion engine, demanding high-friction labor and emotional endurance from citizens without offering structural clarity or reciprocal agency."</em></p>
+          <p><strong>Research Question:</strong> How might we reframe civic participation from an extractive endurance test into a reciprocal, high-agency ecosystem that sustains long-term citizen energy?</p>
+        `;
+      }
+    });
+  </script>
 </body>
 </html>
